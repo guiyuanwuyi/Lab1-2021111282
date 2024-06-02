@@ -28,4 +28,5 @@ public class Node {
     public boolean equals(Node graphnode) {
         return this.label.equals(graphnode.label) && this.edgeSet.equals(graphnode.edgeSet);
     }
+    //第一次修改
 }
