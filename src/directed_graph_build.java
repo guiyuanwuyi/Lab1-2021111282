@@ -84,4 +84,5 @@ public class directed_graph_build {
         System.out.println("5.随机游走");
         System.out.println("6.退出");
     }
+    //modify on B2
 }
