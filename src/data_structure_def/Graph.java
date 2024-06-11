@@ -225,7 +225,7 @@ public class Graph {
                     min = dist.get(key);
                 }
             }
-            if(temp.equals(""))
+            if(temp.isEmpty())
                 break;
             visit.put(temp , 1);//遍历顶点，找到此时最短点并标记,然后进行dist和path的更新
             for(String key:dist.keySet()){
