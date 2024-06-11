@@ -9,7 +9,7 @@ import java.util.Scanner;
 public class directed_graph_build {
     public static void main(String[] args){
         System.out.println("请输入要打开的文本文件的路径及其位置：");
-        Scanner sc = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in,"utf-8");
         String filename = sc.nextLine();
         Graph graph = new Graph();
         File file=new File(filename);
@@ -25,7 +25,7 @@ public class directed_graph_build {
                     graph.showDirectedGraph();
                     break;
                 case 2:
-                    Scanner scan = new Scanner(System.in);
+                    Scanner scan = new Scanner(System.in,"utf-8");
                     System.out.println("请输入第一个词：");
                     String word1 = scan.nextLine();
                     System.out.println("请输入第二个词：");
@@ -39,13 +39,13 @@ public class directed_graph_build {
                         System.out.println("The bridge words from \"" + word1 + "\" to \"" + word2 +"\" are: " + words);
                     break;
                 case 3:
-                    Scanner scan3 = new Scanner(System.in);
+                    Scanner scan3 = new Scanner(System.in,"utf-8");
                     System.out.println("请输入新文本：");
                     String inputText = scan3.nextLine();
                     System.out.println(graph.generateNewText(inputText));
                     break;
                 case 4:
-                    Scanner scan4 = new Scanner(System.in);
+                    Scanner scan4 = new Scanner(System.in,"utf-8");
                     System.out.println("请输入第一个词：");
                     String word3 = scan4.nextLine();
                     System.out.println("请输入第二个词：");
@@ -57,8 +57,12 @@ public class directed_graph_build {
                     String file_output = "output.txt";
                     try{
                         File output_file = new File(file_output);
-                        output_file.createNewFile();
-                        FileWriter writer = new FileWriter(output_file);
+                        boolean flag = output_file.createNewFile();
+                        if(!flag)
+                            System.out.println("File create failed");
+                        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file_output,
+                                true), "utf-8"));
+                        //FileWriter writer = new FileWriter(output_file);
                         writer.write(file_context);
                         writer.close();
                     }catch (IOException e){
@@ -84,5 +88,4 @@ public class directed_graph_build {
         System.out.println("5.随机游走");
         System.out.println("6.退出");
     }
-    //modify on B2
 }

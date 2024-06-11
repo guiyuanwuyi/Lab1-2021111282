@@ -9,6 +9,11 @@ import java.util.concurrent.TimeUnit;
 public class Graph {
 
     private List<Node> nodeList;
+    Random r;
+
+    public Graph(){
+        r = new Random();
+    }
 
     public void addVertex(Node node) {
         if(nodeList == null)
@@ -37,14 +42,15 @@ public class Graph {
                 if(graphNode.getEdgeSet() != null){
                     for(Edge graphEdge : graphNode.getEdgeSet()){
                         if(edge.equals(graphEdge)){
-                            graphEdge.Weightinc();
+                            graphEdge.weightinc();
                             return;
                         }
                     }
                 }
-            edge.setWeight(1);
-            graphNode.getEdgeSet().add(edge);
-            return;
+                edge.setWeight(1);
+                //graphNode.getEdgeSet().add(edge);
+                graphNode.add(edge);
+                return;
             }
         }
     }
@@ -80,7 +86,7 @@ public class Graph {
     public void graph_build_file(File file) {
         try{
             Node front = null;
-            FileInputStream f1=new FileInputStream(file);
+            FileInputStream f1 = new FileInputStream(file);
             StringBuilder word = new StringBuilder(30);
             for (int i = 0; i < file.length(); i++) {
                 char ch=(char)(f1.read());
@@ -103,7 +109,7 @@ public class Graph {
             }
             f1.close();
         }
-        catch (Exception e) {
+        catch (IOException e) {
             System.out.println("发生错误！");
         }
     }
@@ -119,7 +125,7 @@ public class Graph {
     }
 
     public String queryBridgeWords(String word1, String word2) {
-        String words = "";
+        StringBuilder words = new StringBuilder();
         try{
             Node node1 = getVertex(word1);
             Node node2 = getVertex(word2);
@@ -137,7 +143,7 @@ public class Graph {
                 bridge = getVertex(edge.getDst());
                 for(Edge graphedge : bridge.getEdgeSet()){
                     if(graphedge.getDst().equals(word2)){
-                        words = words + bridge.getVertex() + ",";
+                        words = words.append(bridge.getVertex()).append(",");
                         count ++;
                     }
                 }
@@ -146,16 +152,17 @@ public class Graph {
             if(count == 0)
                 throw new Custom_Exception(word1, word2, 4);
             else if(count == 1){
-                words = words.substring(0, words.length() - 1);
-                return words;
+                words.deleteCharAt(words.length()-1);
+                return words.toString();
             }
             else {
                 int front = 0;
-                for(int i = 0 ; i < words.lastIndexOf(','); i++)
+                for(int i = 0 ; i < words.lastIndexOf(","); i++)
                     if(words.charAt(i) == ',')
                         front = i;
-                words = words.substring(0, front) + " and " + words.substring(front + 1, words.length() - 1);
-                return words;
+                words.insert(front, " and ");
+                //words = words.substring(0, front) + " and " + words.substring(front + 1, words.length() - 1);
+                return words.toString();
             }
         }catch(Custom_Exception e){
             return e.out_message();
@@ -183,7 +190,7 @@ public class Graph {
                     if(temp.indexOf('!') == -1){
                         String[] res = temp.split(",| and ");
                         if(res.length != 1){
-                            Random r = new Random();
+                            //Random r = new Random();
                             int random = r.nextInt(res.length - 1);
                             words = words + " " + res[random] + " " + word2;
                         }
@@ -225,6 +232,8 @@ public class Graph {
                     min = dist.get(key);
                 }
             }
+            /*if(temp.equals(""))
+                break;*/
             visit.put(temp , 1);//遍历顶点，找到此时最短点并标记,然后进行dist和path的更新
             for(String key:dist.keySet()){
                 if(visit.get(key) == 0 && node_edge_node(temp,key) &&
@@ -234,16 +243,15 @@ public class Graph {
                 }
             }
         }
-
+        StringBuilder builder = new StringBuilder();
         String i = word2;
         if(visit.get(word2) == 0)
-            System.out.println("无法到达该节点！");
+            return "无法到达该结点！";
         while(!i.equals(word1)){
             ppath.add(path.get(i));
             i = path.get(i);
         }
         Collections.reverse(ppath);
-        StringBuilder builder = new StringBuilder();
         for (String pos : ppath) {
             builder.append(pos + " -> ");
         }
@@ -254,7 +262,7 @@ public class Graph {
     public String randomWalk(){
         String word = " ";
 
-        Random r = new Random();//以系统自身时间为种子数
+        //Random r = new Random();//以系统自身时间为种子数
         int i = r.nextInt(nodeList.size());
         Node node = nodeList.get(i);//得到随机start
         word = node.getVertex();
@@ -265,7 +273,7 @@ public class Graph {
         Thread inputThread = new Thread(() -> {
             try{
                 while (!Thread.currentThread().isInterrupted()) {
-                    Scanner scanner = new Scanner(System.in);
+                    Scanner scanner = new Scanner(System.in,"utf-8");
                     if (System.in.available() == 0) {
                         continue;
                     }
@@ -342,6 +350,4 @@ class Custom_Exception extends Exception{
     public String out_message(){
         return this.message;
     }
-    //modify on B2
-    //modify IDEA
 }

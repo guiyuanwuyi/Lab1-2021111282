@@ -31,7 +31,7 @@ public class Edge{
         this.weight = weight;
     }
 
-    public void Weightinc() {
+    public void weightinc() {
         this.weight ++;
     }
 
@@ -40,8 +40,9 @@ public class Edge{
         return "Edge{" + "from = " + src + ", to = " + dst + ", weight=" + weight + '}';
     }
 
-    public boolean equals(Edge graphedge) {
-        return  src.equals(graphedge.src) &&
-                dst.equals(graphedge.dst);
-    }
+    /*@Override
+    public boolean equals(Object graphedge) {
+        return graphedge.equals(this);
+        //return  src.equals(graphedge.src) && dst.equals(graphedge.dst);
+    }*/
 }

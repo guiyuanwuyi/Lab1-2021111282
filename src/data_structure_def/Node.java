@@ -22,11 +22,10 @@ public class Node {
     }
 
     public Set<Edge> getEdgeSet() {
-        return edgeSet;
+        return (Set<Edge>) edgeSet.clone();
     }
 
-    public boolean equals(Node graphnode) {
+    /*public boolean equals(Node graphnode) {
         return this.label.equals(graphnode.label) && this.edgeSet.equals(graphnode.edgeSet);
-    }
-    //第一次修改
+    }*/
 }
