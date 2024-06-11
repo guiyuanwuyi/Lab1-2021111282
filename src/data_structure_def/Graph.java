@@ -225,6 +225,8 @@ public class Graph {
                     min = dist.get(key);
                 }
             }
+            if(temp.equals(""))
+                break;
             visit.put(temp , 1);//遍历顶点，找到此时最短点并标记,然后进行dist和path的更新
             for(String key:dist.keySet()){
                 if(visit.get(key) == 0 && node_edge_node(temp,key) &&
@@ -237,7 +239,7 @@ public class Graph {
 
         String i = word2;
         if(visit.get(word2) == 0)
-            System.out.println("无法到达该节点！");
+            return "无法到达该节点！";
         while(!i.equals(word1)){
             ppath.add(path.get(i));
             i = path.get(i);
